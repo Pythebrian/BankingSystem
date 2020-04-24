@@ -70,9 +70,9 @@ void banking::user_create(){
 	cout<<"Enter your desired account number: "<<endl;
 	cin>>acc_number;
 	cout<<"Enter your full name: "<<endl;
-	getline(cin,name);
-	cin.ignore();
-	cout<<"Enter your initial deposit"<<endl;
+	cin>>name;
+	cin.get();
+	cout<<"Enter your initial deposit:"<<endl;
 	cin>>deposit;
 	cout<<"Creating account......"<<endl;
 	Sleep(500);
