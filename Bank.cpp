@@ -41,7 +41,7 @@ void banking::menu(){
 	cin>>user_input;
 	cout<<"-----------------------------"<<endl;
 	cout<<"Created by Brian Fu"<<endl<<endl<<"  Banking System"<<endl;
-	/*
+	
 	if (user_input==1){
 		user_create();
 		menu();
@@ -62,7 +62,7 @@ void banking::menu(){
 		cout<<"Invalid selction!"<<endl;
 		menu();
 	}
-	 */
+	 
 	
 } 	
 
@@ -71,14 +71,14 @@ void banking::user_create(){
 	cin>>acc_number;
 	cout<<"Enter your full name: "<<endl;
 	cin>>name;
-	cin.get();
 	cout<<"Enter your initial deposit:"<<endl;
 	cin>>deposit;
-	cout<<"Creating account......"<<endl;
+	balance = deposit;
+	cout<<"Creating account......"<<endl<<endl;
 	Sleep(500);
 	for (int j = 0; j < 3; j++) {
 		cout << "\rLoading   \rLoading"<<endl<<endl;
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < 6; i++) {
 				cout << "."<<endl;
 				Sleep(300);
 			}
@@ -91,7 +91,7 @@ void banking::user_deposit(){
 	cin>>temp_deposit;
 	deposit=deposit + temp_deposit;
 	balance = balance + deposit;
-	cout<<"You have deposited: "<<"$"<<deposit<<endl<<endl
+	cout<<"You have deposited: "<<"$"<<temp_deposit<<endl<<endl
 		<<"Your current balance is: "<<"$"<<balance<<endl;
 }
 
@@ -105,6 +105,7 @@ void banking::user_withdrawn(){
 		cout<<"Try again? (Yes or No): "<<endl;
 		cin>>temp;
 		if(temp=="Yes"){
+			balance = balance + withdraw;
 			user_withdrawn();
 		}
 		else{
@@ -123,7 +124,7 @@ void banking::user_info(){
 	if (temp_acc_number == acc_number){
 		cout<<"Account number: "<<acc_number<<endl;
 		cout<<"Holder's name: "<<name<<endl;
-		cout<<"Balance: "<<balance<<endl;
+		cout<<"Balance: "<<"$"<<balance<<endl;
 	}
 	else{
 		cout<<"Account does not exist!"<<endl
@@ -141,27 +142,6 @@ void banking::user_info(){
 int main(){
 	banking user;
 	user.menu();
-	
-	if (user.user_input==1){
-		user.user_create();
-	}
-	else if(user.user_input==2){
-		user.user_deposit();
-	}
-	else if(user.user_input==3){
-		user.user_info();
-	}
-	else if(user.user_input==4){
-		user.user_withdrawn();
-	}
-	else{
-		cout<<"Invalid selction!"<<endl;
-		user.menu();
-	}
-	user.menu();
-	
-	
-	
 	/*
 	if (user.user_input==1){
 		user.user_create();
@@ -183,7 +163,10 @@ int main(){
 		cout<<"Invalid selction!"<<endl;
 		user.menu();
 	}
-	 */
-	//user.user_withdrawn();
+	*/
+	
+	
+	
+
 	
 }
