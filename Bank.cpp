@@ -11,19 +11,18 @@ using namespace std;
 
 class banking{
 	//Attributes
-public:
+private:
 	double deposit;
 	double temp_deposit;
 	double savings;
 	double chequing;
-
 	double balance{0};
 	int acc_number;
 	int temp_acc_number;
 	string name;
 	int user_input;
 	string temp;
-	
+	int counter{0};
 	//Methods
 public:
 	void user_deposit();
@@ -34,14 +33,17 @@ public:
 };
 
 void banking::menu(){
-	cout<<"1. " << "Create an account"<<endl
-		<<"2. " << "Deposit"<<endl
-		<<"3. " << "Account info"<<endl
-		<<"4. " << "Withdraw"<<endl;
+	cout<<endl<<"  Menus Options: "<<endl<<endl;
+	cout<<"1.Create an account"<<endl<<endl
+		<<"2.Deposit"<<endl<<endl
+		<<"3.Account info"<<endl<<endl
+		<<"4.Withdraw"<<endl;
 	cin>>user_input;
+	system("CLS");
 	cout<<"-----------------------------"<<endl;
-	cout<<"Created by Brian Fu"<<endl<<endl<<"  Banking System"<<endl;
-	
+	cout<<"  Created by Brian Fu"<<endl<<endl<<"  Banking System"<<endl<<endl;
+	cout<<"-----------------------------"<<endl;
+	cout<<endl<<endl<<endl<<"You have selected option "<<user_input<<endl;
 	if (user_input==1){
 		user_create();
 		menu();
@@ -69,20 +71,24 @@ void banking::menu(){
 void banking::user_create(){
 	cout<<"Enter your desired account number: "<<endl;
 	cin>>acc_number;
+	cin.ignore();
 	cout<<"Enter your full name: "<<endl;
-	cin>>name;
+	getline(cin,name);
 	cout<<"Enter your initial deposit:"<<endl;
 	cin>>deposit;
 	balance = deposit;
 	cout<<"Creating account......"<<endl<<endl;
 	Sleep(500);
+	system("CLS");
 	for (int j = 0; j < 3; j++) {
 		cout << "\rLoading   \rLoading"<<endl<<endl;
 			for (int i = 0; i < 6; i++) {
-				cout << "."<<endl;
+				cout << ".";
 				Sleep(300);
 			}
+		system("CLS");
 	}
+	system("CLS");
 	cout<<"Accout created!"<<endl;	
 }
 
@@ -142,31 +148,4 @@ void banking::user_info(){
 int main(){
 	banking user;
 	user.menu();
-	/*
-	if (user.user_input==1){
-		user.user_create();
-		user.menu();
-	}
-	else if(user.user_input==2){
-		user.user_deposit();
-		user.menu();
-	}
-	else if(user.user_input==3){
-		user.user_info();
-		user.menu();
-	}
-	else if(user.user_input==4){
-		user.user_withdrawn();
-		user.menu();
-	}
-	else{
-		cout<<"Invalid selction!"<<endl;
-		user.menu();
-	}
-	*/
-	
-	
-	
-
-	
 }
