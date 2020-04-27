@@ -2,27 +2,35 @@
 #include <vector>
 #include <string>
 #include <Windows.h>
-#include <direct.h>
-#include <dos.h>
 #include <stdlib.h>
 
 using namespace std;
 
+class Account{
+	//Attributes
+public:
+	int acc_number;
+	string name;
+	double deposit;
+	double balance{0};
+	double withdraw;
+	
+
+	
+};
 
 class banking{
 	//Attributes
 private:
-	double deposit;
+	vector <Account> stored_account = {};
 	double temp_deposit;
 	double savings;
 	double chequing;
-	double balance{0};
-	int acc_number;
 	int temp_acc_number;
-	string name;
 	int user_input;
 	string temp;
 	int counter{0};
+	Account new_account;
 	//Methods
 public:
 	void user_deposit();
@@ -30,6 +38,9 @@ public:
 	void user_create();
 	void menu();
 	void user_info();
+	void animation();
+	void test();
+	void moretest();
 };
 
 void banking::menu(){
@@ -37,7 +48,7 @@ void banking::menu(){
 	cout<<"1.Create an account"<<endl<<endl
 		<<"2.Deposit"<<endl<<endl
 		<<"3.Account info"<<endl<<endl
-		<<"4.Withdraw"<<endl;
+		<<"4.Withdraw"<<endl<<endl;
 	cin>>user_input;
 	system("CLS");
 	cout<<"-----------------------------"<<endl;
@@ -64,22 +75,9 @@ void banking::menu(){
 		cout<<"Invalid selction!"<<endl;
 		menu();
 	}
-	 
-	
 } 	
 
-void banking::user_create(){
-	cout<<"Enter your desired account number: "<<endl;
-	cin>>acc_number;
-	cin.ignore();
-	cout<<"Enter your full name: "<<endl;
-	getline(cin,name);
-	cout<<"Enter your initial deposit:"<<endl;
-	cin>>deposit;
-	balance = deposit;
-	cout<<"Creating account......"<<endl<<endl;
-	Sleep(500);
-	system("CLS");
+void banking::animation(){
 	for (int j = 0; j < 3; j++) {
 		cout << "\rLoading   \rLoading"<<endl<<endl;
 			for (int i = 0; i < 6; i++) {
@@ -88,57 +86,155 @@ void banking::user_create(){
 			}
 		system("CLS");
 	}
+}
+
+void banking::user_create(){
+	cout<<"Enter your desired account number: "<<endl;
+	cin>>new_account.acc_number;
+	cin.ignore();
+	cout<<"Enter your full name: "<<endl;
+	getline(cin,new_account.name);
+	cout<<"Enter your initial deposit:"<<endl;
+	cin>>new_account.deposit;
+	new_account.balance = new_account.deposit;
+	cout<<"Creating account......"<<endl<<endl;
+	stored_account.push_back(new_account);
+	counter++;
+	Sleep(500);
 	system("CLS");
-	cout<<"Accout created!"<<endl;	
+	animation();
+	system("CLS");
+	cout<<"Accout created!"<<endl;
+	Sleep(1000);
+	system ("CLS");	
 }
 
 void banking::user_deposit(){
-	cout<<"How much would you like to deposit?"<<endl;
-	cin>>temp_deposit;
-	deposit=deposit + temp_deposit;
-	balance = balance + deposit;
-	cout<<"You have deposited: "<<"$"<<temp_deposit<<endl<<endl
-		<<"Your current balance is: "<<"$"<<balance<<endl;
+	cout<<"Enter the account number: "<<endl;
+	cin>>temp_acc_number;
+	bool deposit_found=false;
+	int deposit_counter = 0;
+	while (deposit_counter <= stored_account.size() && deposit_found == false){
+		if (temp_acc_number == stored_account[deposit_counter].acc_number){
+			cout<<"How much would you like to deposit?"<<endl;
+			cin>>temp_deposit;
+			deposit_found = true;
+			stored_account[deposit_counter].balance = temp_deposit + stored_account[deposit_counter].balance;
+            break;
+		}
+		deposit_counter ++;
+	}
+	if (deposit_found == false){
+		cout<<"Account does not exist!"<<endl
+		<<"Try again? (Yes/No): "<<endl;
+		cin>>temp;
+	if (temp=="Yes"){
+		system("CLS");
+		user_deposit();
+	}
+	else{
+		system("CLS");
+		menu();
+	}
+	}
+	else{
+		system ("CLS");
+		cout<<"You have deposited: "<<"$"<<temp_deposit<<endl<<endl
+		<<"Your current balance is: "<<"$"<<stored_account[deposit_counter].balance<<endl;
+		}
+}
+	
+void banking::user_info(){
+    int counter{0};
+    cout<<"Enter accound number: "<<endl;
+    cin>>temp_acc_number;
+    bool found = false;
+	while (counter <= stored_account.size() && !found)
+	{
+		if (temp_acc_number == stored_account[counter].acc_number)
+		{
+			cout<<"Account number: "<<stored_account[counter].acc_number<<endl;
+			cout<<"Holder's name: "<<stored_account[counter].name<<endl;
+			cout<<"Balance: "<<"$"<<stored_account[counter].balance<<endl;
+			found = true;
+			break;
+		}
+		counter ++;
+	}
+	if(counter==stored_account.size() && found == false){
+    cout<<"Account does not exist!"<<endl
+        <<"Try again? (Yes/No): "<<endl;
+        cin>>temp;
+        if (temp=="Yes"){
+			system ("CLS");
+            user_info();
+        }
+        else{
+            system("CLS");
+            menu();
+        }
+		
+	}
+}
+
+
+
+
+
+void banking::test(){
+	for (int i=0; i<stored_account.size(); i++){
+		cout<<stored_account[i].name<<endl;
+	}
 }
 
 void banking::user_withdrawn(){
-	double withdraw{0};
-	cout<<"How much would you like to withdraw?"<<endl;
-	cin>>withdraw;
-	balance = balance - withdraw;
-	if (balance < 0){
-		cout<<"Insufficient funds!"<<endl;
-		cout<<"Try again? (Yes or No): "<<endl;
+	cout<<"Enter your account number: "<<endl;
+	cin>>temp_acc_number;
+	bool withdrawn_found = false;
+	int withdrawn_counter = 0;
+	while (withdrawn_counter <= stored_account.size() && withdrawn_found == false){
+		if(temp_acc_number == stored_account[withdrawn_counter].acc_number){
+			cout<<"How much would you like to withdraw? "<<endl;
+			cin>>stored_account[withdrawn_counter].withdraw;
+			withdrawn_found = true;
+			stored_account[withdrawn_counter].balance = stored_account[withdrawn_counter].balance - stored_account[withdrawn_counter].withdraw;
+			if(stored_account[withdrawn_counter].balance >= 0){
+				system ("CLS");
+				cout<<"You have withdrawn: "<<"$"<<stored_account[withdrawn_counter].withdraw<<endl<<endl
+				<<"Your current balance is: "<<'$'<<stored_account[withdrawn_counter].balance<<endl;
+			}
+			if(stored_account[withdrawn_counter].balance < 0){
+				cout<<"Insufficient funds!"<<endl
+				<<"Try again? (Yes/No)"<<endl;
+				cin>>temp;
+				if(temp == "Yes"){
+					system("CLS");
+					stored_account[withdrawn_counter].balance = stored_account[withdrawn_counter].balance + stored_account[withdrawn_counter].withdraw;
+					user_withdrawn();
+				}
+				else{
+					system ("CLS");
+					menu();
+				}
+			}
+			
+		}
+		withdrawn_counter ++;
+	}
+	if (withdrawn_found == false){
+		cout<<"Accont does not exist!"<<endl
+			<<"Try again? (Yes/No)"<<endl;
 		cin>>temp;
-		if(temp=="Yes"){
-			balance = balance + withdraw;
+		if (temp == "Yes"){
+			system ("CLS");
 			user_withdrawn();
 		}
 		else{
-			exit(0);
+			system ("CLS");
+			menu();
 		}
 	}
-	else{
-		cout<<"You have withdrawn: "<<"$"<<withdraw<<endl<<endl
-		<<"Your current balance is: "<<"$"<<balance<<endl;
-	}
 }
-
-void banking::user_info(){
-	cout<<"Enter account number: "<<endl;
-	cin>>temp_acc_number;
-	if (temp_acc_number == acc_number){
-		cout<<"Account number: "<<acc_number<<endl;
-		cout<<"Holder's name: "<<name<<endl;
-		cout<<"Balance: "<<"$"<<balance<<endl;
-	}
-	else{
-		cout<<"Account does not exist!"<<endl
-		<<"Try again!"<<endl;
-		user_info();
-	}
-}
-
 
 
 
@@ -146,6 +242,6 @@ void banking::user_info(){
 
 
 int main(){
-	banking user;
-	user.menu();
+	banking user_1;
+	user_1.menu();
 }
