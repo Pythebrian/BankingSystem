@@ -41,6 +41,7 @@ public:
 	void animation();
 	void test();
 	void moretest();
+    void user_close();
 };
 
 void banking::menu(){
@@ -48,29 +49,34 @@ void banking::menu(){
 	cout<<"1.Create an account"<<endl<<endl
 		<<"2.Deposit"<<endl<<endl
 		<<"3.Account info"<<endl<<endl
-		<<"4.Withdraw"<<endl<<endl;
+		<<"4.Withdraw"<<endl<<endl
+        <<"5.Close an account"<<endl<<endl;
 	cin>>user_input;
 	system("CLS");
 	cout<<"-----------------------------"<<endl;
 	cout<<"  Created by Brian Fu"<<endl<<endl<<"  Banking System"<<endl<<endl;
 	cout<<"-----------------------------"<<endl;
 	cout<<endl<<endl<<endl<<"You have selected option "<<user_input<<endl;
-	if (user_input==1){
+	if (user_input == 1){
 		user_create();
 		menu();
 	}
-	else if(user_input==2){
+	else if(user_input == 2){
 		user_deposit();
 		menu();
 	}
-	else if(user_input==3){
+	else if(user_input == 3){
 		user_info();
 		menu();
 	}
-	else if(user_input==4){
+	else if(user_input == 4){
 		user_withdrawn();
 		menu();
 	}
+    else if(user_input == 5){
+        user_close();
+        menu();
+    }
 	else{
 		cout<<"Invalid selction!"<<endl;
 		menu();
@@ -177,10 +183,6 @@ void banking::user_info(){
 	}
 }
 
-
-
-
-
 void banking::test(){
 	for (int i=0; i<stored_account.size(); i++){
 		cout<<stored_account[i].name<<endl;
@@ -236,10 +238,36 @@ void banking::user_withdrawn(){
 	}
 }
 
-
-
-
-
+void banking::user_close(){
+    cout<<"Enter your account number: "<<endl;
+    cin>>temp_acc_number;
+    bool acc_found = false;
+    int acc_counter = 0;
+    while (acc_counter <= stored_account.size() && acc_found == false){
+        if (temp_acc_number == stored_account[acc_counter].acc_number){
+            stored_account.erase(stored_account.begin() + acc_counter);
+            acc_found = true;
+            break;
+        }
+        acc_counter ++;
+    }
+    if(acc_found == true){
+        cout<<"Account removed!"<<endl;
+    }
+    if (acc_found == false){
+        cout<<"Accont does not exist!"<<endl
+		<<"Try again? (Yes/No)"<<endl;
+		cin>>temp;
+		if (temp == "Yes"){
+			system ("CLS");
+			user_close();
+		}
+		else{
+			system ("CLS");
+			menu();
+		}
+    }
+}
 
 int main(){
 	banking user_1;
