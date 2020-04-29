@@ -273,3 +273,45 @@ int main(){
 	banking user_1;
 	user_1.menu();
 }
+/*
+void banking::user_create(){
+	bool id = false;
+	int create_counter{0};
+	cout<<"Enter your account number: "<<endl;
+	cin>>temp_acc_number;
+	while (id == false && stored_account.size() >= 1){
+		if(stored_account[create_counter].acc_number == temp_acc_number){
+			cout<<"Account number not avaialble! "<<endl
+			<<"Try again? (Yes/No)"<<endl;
+			cin>>temp;
+		}
+		if (temp == "Yes"){
+			id = true;
+			user_create();
+		}
+		else{
+			menu();
+		}
+		
+		create_counter ++;
+	}
+	if (id == false){
+		new_account.acc_number = temp_acc_number;
+	}
+	cin.ignore();
+	cout<<"Enter your full name: "<<endl;
+	getline(cin,new_account.name);
+	cout<<"Enter your initial deposit:"<<endl;
+	cin>>new_account.deposit;
+	new_account.balance = new_account.deposit;
+	cout<<"Creating account......"<<endl<<endl;
+	stored_account.push_back(new_account);
+	Sleep(500);
+	system("CLS");
+	animation();
+	system("CLS");
+	cout<<"Accout created!"<<endl;
+	Sleep(1000);
+	system ("CLS");	
+}
+*/
