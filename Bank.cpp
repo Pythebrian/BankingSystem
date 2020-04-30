@@ -302,7 +302,7 @@ void banking::user_create(){
 		if (temp == "Yes"){
 			cout<<"Enter your account number: "<<endl;
 			cin>>temp_acc_number;
-			bool taken = is_acc_num_taken(temp_acc_number);
+			taken = is_acc_num_taken(temp_acc_number);
 		}
 		else{
 			menu();
