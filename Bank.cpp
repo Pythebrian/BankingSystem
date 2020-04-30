@@ -94,28 +94,6 @@ void banking::animation(){
 		system("CLS");
 	}
 }
-/*
-void banking::user_create(){
-	cout<<"Enter your desired account number: "<<endl;
-	cin>>new_account.acc_number;
-	cin.ignore();
-	cout<<"Enter your full name: "<<endl;
-	getline(cin,new_account.name);
-	cout<<"Enter your initial deposit:"<<endl;
-	cin>>new_account.deposit;
-	new_account.balance = new_account.deposit;
-	cout<<"Creating account......"<<endl<<endl;
-	stored_account.push_back(new_account);
-	counter++;
-	Sleep(500);
-	system("CLS");
-	animation();
-	system("CLS");
-	cout<<"Accout created!"<<endl;
-	Sleep(1000);
-	system ("CLS");	
-}
-*/
 void banking::user_deposit(){
 	cout<<"Enter the account number: "<<endl;
 	cin>>temp_acc_number;
@@ -319,12 +297,12 @@ void banking::user_create(){
 	new_account.balance = new_account.deposit;
 	cout<<"Creating account......"<<endl<<endl;
 	stored_account.push_back(new_account);
-	//Sleep(500);
-	//system("CLS");
-	//animation();
-	//system("CLS");
+	Sleep(500);
+	system("CLS");
+	animation();
+	system("CLS");
 	cout<<"Accout created!"<<endl;
-	//Sleep(1000);
-	//system ("CLS");	
+	Sleep(1000);
+	system ("CLS");	
 }
 
