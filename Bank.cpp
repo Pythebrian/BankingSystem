@@ -29,8 +29,8 @@ private:
 	int temp_acc_number;
 	int user_input;
 	string temp;
-	int counter{0};
-	Account new_account;
+	int counter{0}; 
+	
 	//Methods
 public:
 	void user_deposit();
@@ -42,6 +42,7 @@ public:
 	void test();
 	void moretest();
     void user_close();
+	bool is_acc_num_taken(int temp_acc_number);
 };
 
 void banking::menu(){
@@ -93,7 +94,7 @@ void banking::animation(){
 		system("CLS");
 	}
 }
-
+/*
 void banking::user_create(){
 	cout<<"Enter your desired account number: "<<endl;
 	cin>>new_account.acc_number;
@@ -114,7 +115,7 @@ void banking::user_create(){
 	Sleep(1000);
 	system ("CLS");	
 }
-
+*/
 void banking::user_deposit(){
 	cout<<"Enter the account number: "<<endl;
 	cin>>temp_acc_number;
@@ -188,6 +189,17 @@ void banking::test(){
 		cout<<stored_account[i].name<<endl;
 	}
 }
+
+bool banking::is_acc_num_taken(int temp_acc_number){
+	for (int i=0; i<stored_account.size(); i++){
+		if (stored_account[i].acc_number == temp_acc_number)
+			return true;
+	}	
+	return false;
+}
+
+
+
 
 void banking::user_withdrawn(){
 	cout<<"Enter your account number: "<<endl;
@@ -273,29 +285,30 @@ int main(){
 	banking user_1;
 	user_1.menu();
 }
-/*
+
 void banking::user_create(){
-	bool id = false;
+	Account new_account;
 	int create_counter{0};
 	cout<<"Enter your account number: "<<endl;
 	cin>>temp_acc_number;
-	while (id == false && stored_account.size() >= 1){
-		if(stored_account[create_counter].acc_number == temp_acc_number){
-			cout<<"Account number not avaialble! "<<endl
-			<<"Try again? (Yes/No)"<<endl;
-			cin>>temp;
-		}
+	bool taken = is_acc_num_taken(temp_acc_number);
+	string temp;
+	while(taken)
+	{
+		cout<<"Account number not avaialble! "<<endl
+		<<"Try again? (Yes/No)"<<endl;
+		cin>>temp;
+		
 		if (temp == "Yes"){
-			id = true;
-			user_create();
+			cout<<"Enter your account number: "<<endl;
+			cin>>temp_acc_number;
+			bool taken = is_acc_num_taken(temp_acc_number);
 		}
 		else{
 			menu();
 		}
-		
-		create_counter ++;
 	}
-	if (id == false){
+	if (!taken){
 		new_account.acc_number = temp_acc_number;
 	}
 	cin.ignore();
@@ -306,12 +319,12 @@ void banking::user_create(){
 	new_account.balance = new_account.deposit;
 	cout<<"Creating account......"<<endl<<endl;
 	stored_account.push_back(new_account);
-	Sleep(500);
-	system("CLS");
-	animation();
-	system("CLS");
+	//Sleep(500);
+	//system("CLS");
+	//animation();
+	//system("CLS");
 	cout<<"Accout created!"<<endl;
-	Sleep(1000);
-	system ("CLS");	
+	//Sleep(1000);
+	//system ("CLS");	
 }
-*/
+
