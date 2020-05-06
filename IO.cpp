@@ -45,24 +45,26 @@ public:
 	void in_file();
 	int count_line();
 	banking(){
+		Account new_account;
 		count_line();
 		int count;
 		int i{0};
 		count = count_line()/3;
 		ifstream in_file;
 		string name;
-		int acc;
-		double bal;
-		stored_account.resize(count_line());
+		//stored_account.resize(count_line());
 		in_file.open("output.txt");
 		if (!in_file){
 			cerr<<"Problem reading from file"<<endl;
 			exit (1);
 		}
-		while (i<=count && count > 0){
-			in_file>>stored_account[i].acc_number;
-			in_file>>stored_account[i].balance;
-			in_file>>stored_account[i].name;
+		for (count; count > 0; count--){
+			in_file>>new_account.acc_number;
+			in_file>>new_account.balance;
+			in_file>>new_account.name;
+			stored_account.push_back(new_account);
+			cout<<stored_account[i].acc_number<<endl;
+			cout<<stored_account[i].name<<endl;
 			i++;
 		}
 		in_file.close();
@@ -70,16 +72,13 @@ public:
 };
 
 void banking::menu(){
-	out_file();
-	//count_line();
-	
-	//in_file();
 	cout<<endl<<"  Menus Options: "<<endl<<endl;
 	cout<<"1.Create an account"<<endl<<endl
 		<<"2.Deposit"<<endl<<endl
 		<<"3.Account info"<<endl<<endl
 		<<"4.Withdraw"<<endl<<endl
-        <<"5.Close an account"<<endl<<endl;
+        <<"5.Close an account"<<endl<<endl
+		<<"6.Exit program (All data will be saved)"<<endl<<endl;
 	cin>>user_input;
 	system("CLS");
 	cout<<"-----------------------------"<<endl;
@@ -106,6 +105,10 @@ void banking::menu(){
         user_close();
         menu();
     }
+	else if (user_input == 6){
+		out_file();
+		exit(0);
+	}
 	else{
 		cout<<"Invalid selction!"<<endl;
 		menu();
@@ -175,7 +178,7 @@ void banking::user_info(){
 		}
 		counter ++;
 	}
-	if(counter==stored_account.size() && found == false){
+	if(found == false){
     cout<<"Account does not exist!"<<endl
         <<"Try again? (Yes/No): "<<endl;
         cin>>temp;
@@ -343,7 +346,8 @@ void banking::out_file(){   //Outputs the account data to txt file
 	out_file.close();
 }
 
-void banking::in_file(){    //Reads the txt file to fill account data
+void banking::in_file(){   
+	count_line(); //Reads the txt file to fill account data
 	int count;
 	int i{0};
 	count = count_line()/3;
@@ -387,5 +391,17 @@ int banking::count_line(){	//Count the number of accounts in the txt file
 
 int main(){
 	banking user_1;
+	//user_1.in_file(); <------ This has no effect to the output. Debugged!
 	user_1.menu();
 }
+
+/* 
+Situation update:
+user_1.in_file() did not cause output of zero in the text file
+out_file() overwrites the text file everytime the program is run
+There's needs to be a way to stop out_file() from doing this
+in_file() might need to be a constructor, but it may caused the zeros issue again
+It turns out the out_file() is printing zeros because it thinks that the vector is empty at those indices
+It prints an empty space because the default string is empty
+resize() may have been the problem. 
+*/
