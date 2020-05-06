@@ -44,11 +44,36 @@ public:
 	void out_file();
 	void in_file();
 	int count_line();
+	banking(){
+		count_line();
+		int count;
+		int i{0};
+		count = count_line()/3;
+		ifstream in_file;
+		string name;
+		int acc;
+		double bal;
+		stored_account.resize(count_line());
+		in_file.open("output.txt");
+		if (!in_file){
+			cerr<<"Problem reading from file"<<endl;
+			exit (1);
+		}
+		while (i<=count && count > 0){
+			in_file>>stored_account[i].acc_number;
+			in_file>>stored_account[i].balance;
+			in_file>>stored_account[i].name;
+			i++;
+		}
+		in_file.close();
+		}
 };
 
 void banking::menu(){
-	count_line();
-	cout<<count_line();
+	out_file();
+	//count_line();
+	
+	//in_file();
 	cout<<endl<<"  Menus Options: "<<endl<<endl;
 	cout<<"1.Create an account"<<endl<<endl
 		<<"2.Deposit"<<endl<<endl
@@ -326,6 +351,7 @@ void banking::in_file(){    //Reads the txt file to fill account data
 	string name;
 	int acc;
 	double bal;
+	stored_account.resize(count_line());
 	in_file.open("output.txt");
 	if (!in_file){
 		cerr<<"Problem reading from file"<<endl;
@@ -354,7 +380,7 @@ int banking::count_line(){	//Count the number of accounts in the txt file
 		count ++;
 	}
 	count_file.close();
-	return count - 1;
+	return count;
 }
 
 
@@ -363,4 +389,3 @@ int main(){
 	banking user_1;
 	user_1.menu();
 }
-v
