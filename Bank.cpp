@@ -146,7 +146,7 @@ void banking::user_info(){
 		}
 		counter ++;
 	}
-	if(counter==stored_account.size() && found == false){
+	if(found == false){
     cout<<"Account does not exist!"<<endl
         <<"Try again? (Yes/No): "<<endl;
         cin>>temp;
