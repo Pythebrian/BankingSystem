@@ -3,6 +3,7 @@
 #include <string>
 #include <Windows.h>
 #include <stdlib.h>
+#include <fstream>
 
 using namespace std;
 
@@ -14,9 +15,6 @@ public:
 	double deposit;
 	double balance{0};
 	double withdraw;
-	
-
-	
 };
 
 class banking{
@@ -43,6 +41,36 @@ public:
 	void moretest();
     void user_close();
 	bool is_acc_num_taken(int temp_acc_number);
+	void out_file();
+	void in_file();
+	int count_line();
+	banking(){
+		Account new_account;
+		count_line();
+		int count;
+		int i{0};
+		count = count_line()/3;
+		ifstream in_file;
+		string name;
+		//stored_account.resize(count_line());
+		in_file.open("output.txt");
+		if (!in_file){
+			cerr<<"Creating file"<<endl;
+			//exit (1);
+            ofstream txt {"output.txt"};
+            txt.close();
+		}
+		for (count; count > 0; count--){
+			in_file>>new_account.acc_number;
+			in_file>>new_account.balance;
+			in_file>>new_account.name;
+			stored_account.push_back(new_account);
+			//cout<<stored_account[i].acc_number<<endl;
+			//cout<<stored_account[i].name<<endl;
+			i++;
+		}
+		in_file.close();
+		}
 };
 
 void banking::menu(){
@@ -51,11 +79,12 @@ void banking::menu(){
 		<<"2.Deposit"<<endl<<endl
 		<<"3.Account info"<<endl<<endl
 		<<"4.Withdraw"<<endl<<endl
-        <<"5.Close an account"<<endl<<endl;
+        <<"5.Close an account"<<endl<<endl
+		<<"6.Exit program (All data will be saved)"<<endl<<endl;
 	cin>>user_input;
 	system("CLS");
 	cout<<"-----------------------------"<<endl;
-	cout<<"  Created by Brian Fu"<<endl<<endl<<"  Banking System"<<endl<<endl;
+	cout<<"  Created by pythebrian"<<endl<<endl<<"  Banking System"<<endl<<endl;
 	cout<<"-----------------------------"<<endl;
 	cout<<endl<<endl<<endl<<"You have selected option "<<user_input<<endl;
 	if (user_input == 1){
@@ -78,6 +107,10 @@ void banking::menu(){
         user_close();
         menu();
     }
+	else if (user_input == 6){
+		out_file();
+		exit(0);
+	}
 	else{
 		cout<<"Invalid selction!"<<endl;
 		menu();
@@ -94,6 +127,7 @@ void banking::animation(){
 		system("CLS");
 	}
 }
+
 void banking::user_deposit(){
 	cout<<"Enter the account number: "<<endl;
 	cin>>temp_acc_number;
@@ -176,9 +210,6 @@ bool banking::is_acc_num_taken(int temp_acc_number){
 	return false;
 }
 
-
-
-
 void banking::user_withdrawn(){
 	cout<<"Enter your account number: "<<endl;
 	cin>>temp_acc_number;
@@ -259,11 +290,6 @@ void banking::user_close(){
     }
 }
 
-int main(){
-	banking user_1;
-	user_1.menu();
-}
-
 void banking::user_create(){
 	Account new_account;
 	int create_counter{0};
@@ -304,5 +330,71 @@ void banking::user_create(){
 	cout<<"Accout created!"<<endl;
 	Sleep(1000);
 	system ("CLS");	
+}
+
+void banking::out_file(){   //Outputs the account data to txt file
+	int i = 0;
+	ofstream out_file {"output.txt"};
+	if (!out_file){
+		cerr<<"Error creating file"<<endl;
+		exit(1);
+	}
+	while (stored_account.size() >= 1 && i < stored_account.size()){
+		out_file<<stored_account[i].acc_number<<endl;
+		out_file<<stored_account[i].balance<<endl;
+		out_file<<stored_account[i].name<<endl;
+		i++;
+	}
+    cout<<"Account information saved"<<endl;
+	out_file.close();
+}
+
+void banking::in_file(){   
+	count_line(); //Reads the txt file to fill account data
+	int count;
+	int i{0};
+	count = count_line()/3;
+	ifstream in_file;
+	string name;
+	int acc;
+	double bal;
+	stored_account.resize(count_line());
+	in_file.open("output.txt");
+	if (!in_file){
+		cerr<<"Problem reading from file"<<endl;
+		exit (1);
+	}
+	while (i<=count && count > 0){
+		in_file>>stored_account[i].acc_number;
+		in_file>>stored_account[i].balance;
+		in_file>>stored_account[i].name;
+		i++;
+	}
+	in_file.close();
+}
+
+int banking::count_line(){	//Count the number of accounts in the txt file
+	int count = 0;
+	string line;
+	ifstream count_file;
+	count_file.open("output.txt");
+	if (!count_file){
+		cerr<<"Problem reading from file"<<endl;
+		return 1;
+	}
+	while (!count_file.eof()){
+		getline(count_file,line);
+		count ++;
+	}
+	count_file.close();
+	return count;
+}
+
+
+
+int main(){
+	banking user_1;
+	user_1.menu();
+    return 0;
 }
 
